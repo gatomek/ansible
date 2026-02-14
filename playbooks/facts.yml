@@ -1,0 +1,8 @@
+- name: Facts
+  gather_facts: yes
+  hosts: kamatera
+  become: false
+  tasks:
+    - name: All gathered facts
+      ansible.builtin.debug:
+        var: ansible_facts

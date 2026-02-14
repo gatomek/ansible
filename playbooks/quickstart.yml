@@ -1,0 +1,9 @@
+- name: Quick Start
+  hosts: kamatera
+  tasks:
+    - name: Ping my host
+      ansible.builtin.ping:
+
+    - name: Print Message
+      ansible.builtin.debug:
+        msg: Hello World!

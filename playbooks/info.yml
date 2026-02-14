@@ -1,0 +1,21 @@
+- name: Info
+  gather_facts: yes
+  hosts: kamatera
+  become: false
+  tasks:
+    - name: Distribution
+      debug: msg="Distro is {{ ansible_facts.distribution}}"
+    - name: Version
+      debug: msg="Version is {{ansible_facts.distribution_version}}"
+    - name: Major Version
+      debug: msg="Major version is {{ansible_facts.distribution_major_version}}"
+    - name: Distribution Release
+      debug: msg="Release name is {{ansible_facts.distribution_release}}"
+    - name: System details
+      debug: msg="{{item}}"
+      with_items:
+        - "{{ansible_facts.distribution}}"
+        - "{{ansible_facts.distribution_version}}"
+        - "{{ansible_facts.distribution_major_version}}"
+        - "{{ansible_facts.distribution_release}}"
+        - "{{ansible_facts.lsb.release}}"

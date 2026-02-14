@@ -1,0 +1,25 @@
+- name: Copy cert and priv key for Keycloak
+  gather_facts: no
+  hosts: kamatera
+  become: true
+  tasks:
+    - name: Copy full chain cert for Keycloak
+      ansible.builtin.copy:
+        src: /etc/letsencrypt/live/113-30-190-16.cloud-xip.com/fullchain.pem
+        dest: /opt/keycloak-26.4.7/
+        remote_src: yes
+    - name: Full chain cert for user keycloak
+      ansible.builtin.file:
+        path: /opt/keycloak-26.4.7/fullchain.pem
+        owner: keycloak
+        group: keycloak
+    - name: Copy priv key for Keycloak
+      ansible.builtin.copy:
+        src: /etc/letsencrypt/live/113-30-190-16.cloud-xip.com/privkey.pem
+        dest: /opt/keycloak-26.4.7/
+        remote_src: yes
+    - name: Privkey for user keycloak
+      ansible.builtin.file:
+        path: /opt/keycloak-26.4.7/privkey.pem
+        owner: keycloak
+        group: keycloak

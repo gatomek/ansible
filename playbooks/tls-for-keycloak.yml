@@ -2,6 +2,8 @@
   gather_facts: no
   hosts: kamatera
   become: true
+  become_method: sudo
+  remote_user: gatomek
   tasks:
     - name: Copy full chain cert for Keycloak
       ansible.builtin.copy:

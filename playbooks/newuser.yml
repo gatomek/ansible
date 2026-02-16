@@ -1,0 +1,41 @@
+- name: Create group developers and prepare file for users belonging to it
+  hosts: kamatera
+  gather_facts: yes
+  become: yes
+  become_method: sudo
+  remote_user: gatomek
+  tasks:
+    - name: Creating new user 'peter.parker'
+      ansible.builtin.user:
+        name: peter.parker
+        shell: /bin/bash
+        create_home: yes
+        password: "{{'Logan1982' | password_hash('sha512') }}"
+        state: present
+    - name: setting the authorizated keys
+      ansible.posix.authorized_key:
+        user: peter.parker
+        state: present
+        key: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOiB3geMbpUYzA79a8HC6WjalKBdsULS+hI2EX/nJzni tomek@tower'
+    - name: Adding group 'developers'
+      group:
+        name: developers
+        state: present
+    - name: Assign user 'peter.parker' to group 'developers'
+      user:
+        name: peter.parker
+        groups: developers
+        append: yes
+    - name: Create folder licences for group 'developers'
+      file:
+        path: /opt/licences
+        state: directory
+        mode: 0750
+        group: developers
+    - name: Create intelliJ licence file with licence key
+      file:
+        path: /opt/licences/intellij.txt
+        state: touch
+        mode: 0770
+        group: developers
+

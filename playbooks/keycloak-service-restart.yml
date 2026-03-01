@@ -1,0 +1,10 @@
+- name: Keycloak Service Restart
+  gather_facts: no
+  hosts: kamatera
+  become: true
+  tasks:
+    - name: Keycloak Service Restart
+      ansible.builtin.service:
+        enabled: yes
+        name: keycloak
+        state: restarted
